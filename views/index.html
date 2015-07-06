@@ -13,33 +13,17 @@
 		<div class="col-xs-6 col-sm-12">
 			<div class="panel panel-default">
 				<div class="panel-body selectors">
-					<div class="hotel-selector">
-						<h4>Hotels</h4>
+				{% for key in event_type %}
+					<div class="{{loop.key}}-selector">
+						<h4>{{loop.key}}</h4>
 						<select>
-						{% for hotel in all_hotels %}
-							<option value="{{hotel.id}}">{{ hotel.name }}</option>
+						{% for item in key %}
+							<option value="{{item.id}}">{{ item.name }}</option>
 						{% endfor %}
 						</select>
 						<button class="btn btn-primary btn-circle pull-right">+</button>
 					</div>
-					<div class="restaurant-selector">
-						<h4>Restaurants</h4>
-						<select>
-						{% for restaurant in all_restaurants %}
-							<option value="{{restaurant.id}}">{{ restaurant.name }}</option>
-						{% endfor %}
-						</select>
-						<button class="btn btn-primary btn-circle pull-right">+</button>
-					</div>
-					<div class="thing-selector">
-						<h4>Things To Do</h4>
-						<select>
-						{% for thingToDo in all_things_to_do %}
-							<option value="{{thingToDo.id}}">{{ thingToDo.name }}</option>
-						{% endfor %}
-						</select>
-						<button class="btn btn-primary btn-circle pull-right">+</button>
-					</div>
+				{% endfor %}
 				</div>
 			</div>
 		</div>
@@ -54,27 +38,16 @@
 				<div class="panel-heading">
 					<div class="day-buttons">
 						<button class="btn btn-circle day-btn current-day">1</button>
-<!-- 						<button class="btn btn-circle day-btn current-day">2</button>
-						<button class="btn btn-circle day-btn">3</button>
-						<button class="btn btn-circle day-btn">+</button> -->
 					</div>
 				</div>
 				<div class="panel-body itinerary">
-					<div class="my_hotel">
-						<h4>My Hotel</h4>
+				{% for key in event_type %}
+					<div class="my_{{loop.key}}">
+						<h4>my {{loop.key}}</h4>
 						<ul class="list-group">
 						</ul>
 					</div>
-					<div class="my_restaurants">
-						<h4>My Restaurants</h4>
-						<ul class="list-group">
-						</ul>
-					</div>
-					<div class="my_things">
-						<h4>My Things To Do</h4>
-						<ul class="list-group">
-						</ul>
-					</div>
+				{% endfor %}
 				</div>
 			</div>
 		</div>
@@ -83,9 +56,9 @@
 
 <script>
 	{% autoescape false %}
-		var all_hotels = {{ all_hotels | json }};
-		var all_restaurants = {{ all_restaurants | json }};
-		var all_things_to_do = {{ all_things_to_do | json }};
+		var hotel = {{ event_type.hotel | json }};
+		var restaurant = {{ event_type.restaurant | json }};
+		var activity = {{ event_type.activity | json }};
 	{% endautoescape %}
 </script>
 
