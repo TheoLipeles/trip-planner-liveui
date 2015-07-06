@@ -35,32 +35,29 @@
 				
 		}).bind(this));
 	}
-
 	days.push(new Day());
 	// //set the id for the day class
 	$('span#day-title>span').attr('id', '0');
 
 	var currentDayId = parseInt($('span#day-title>span').attr('id'));
 
-	var switchDay = function(){
-		if(days[currentDayId]!==this) {
-			days[currentDayId].toggle();
-		}
-		//$('#day-title>#'+ currentDayId).text('Day ' + this.)
-
-	}
-	//assign handler for each dynamic itinerary
 	$('.day-buttons>#create-day').on('click', function (){
 		var buttonHtml = '<button class="btn btn-circle day-btn">@dayNum@</button>\n';
 
 		$(this).before(buttonHtml.replace('@dayNum@', currentDayId + 2));
 
-		$(this).prev().on('click', switchDay.bind(this));
-
+		$(this).prev().on('click', function(){
+			if(days[currentDayId]!==this) {
+				days[currentDayId].toggle();
+			}
+		});
 	});
 
-	//assign handler for the 1st day only
-	$('.day-buttons>.current-day').on('click', switchDay.bind(this));
+	$('.day-buttons>.current-day').on('click', function(){
+		if(days[currentDayId]!==days[0]) {
+			days[currentDayId].toggle();
+		};
+	});
 
 	// this is to maintain the data and prevent naming confusion;
 	var events = {
@@ -80,6 +77,7 @@
 				}
 			}
 		}
+
 		// dom elements to manipulate
 		var event_handler = $('.' + event_type + '-selector' + '>.btn.btn-primary.btn-circle.pull-right');
 		event_handler.on('click', function(){
@@ -138,10 +136,16 @@
 		event.dom_ref=$('#' + event._id + '.itinerary-item');
 		console.log('!!!!!@#@',event);
 		$("#@ID@.itinerary-item".replace("@ID@", event._id)).append(itinerary_span.replace("@NAME@", event.name)).on('click', function(){
+		//	console.log('click')
+		//	
 			$(this).off('click');
 			$(this).remove();
+			//trigger the day removal
+			//console.log('BEFORE',days[currentDayId]);
 			
 			days[currentDayId].remove(event_type, event._id);
+
+			console.log(days[currentDayId]);
 			locations[0].setMap(null);
 			locations = locations.slice(1);
 

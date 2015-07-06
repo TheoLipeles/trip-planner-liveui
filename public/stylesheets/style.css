@@ -137,3 +137,6 @@ h3 {
     vertical-align: middle; }
   #day-title > .remove {
     margin-left: 1em; }
+
+.disabled {
+  display: none; }
